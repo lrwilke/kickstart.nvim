@@ -162,7 +162,16 @@ vim.opt.scrolloff = 10
 
 -- Return to file explorer from within Nvim
 -- adapted from the Primagen
-vim.keymap.set('n', '<leader>m', ':Ex<CR>', { noremap = true, silent = true })
+-- NOTE: deprecated since using Nvim-Tree (see next keymap, <leader>m then opens Nvim-Tree)
+-- vim.keymap.set('n', '<leader>m', ':Ex<CR>', { noremap = true, silent = true })
+
+-- Key mapping to close the current buffer and return to full-screen Nvim-Tree view
+vim.keymap.set('n', '<leader>m', function()
+  -- Close the current buffer
+  vim.cmd 'bd'
+  -- Reopen Nvim-Tree in full screen
+  require('nvim-tree.api').tree.open()
+end, { noremap = true, silent = true, desc = 'Close file and reopen Nvim-Tree' })
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
