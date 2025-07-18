@@ -448,7 +448,7 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
       vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
       vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
-      vim.keymap.set('n', '<leader>fu', builtin.lsp_references, {}, { desc = 'Find usages' })
+      vim.keymap.set('n', '<leader>fu', builtin.lsp_references, { desc = '[F]ind [u]sages' })
       vim.keymap.set('n', '<leader>fe', ':edit .<CR>', { desc = '[F]ile [E]xplorer' })
 
       vim.keymap.set('n', '<leader>y', '"+y<CR>', { desc = 'Copy to clipboard' })
