@@ -937,6 +937,18 @@ require('lazy').setup({
       auto_install = true,
       highlight = {
         enable = true,
+
+        -- Disable for large files
+        disable = function(lang, buf)
+          local max_filesize = 100 * 1024 -- 500 KB
+          local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+          if ok and stats and stats.size > max_filesize then
+            vim.schedule(function()
+              vim.notify('Treesitter disabled for large file', vim.log.levels.WARN)
+            end)
+            return true
+          end
+        end,
         -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
         --  If you are experiencing weird indenting issues, add the language to
         --  the list of additional_vim_regex_highlighting and disabled languages for indent.
@@ -972,17 +984,6 @@ require('lazy').setup({
         },
       }
     end,
-  },
-
-  -- Preview mardown and PlantUML documents in the browser with synchronized scrolling
-  {
-    'iamcco/markdown-preview.nvim',
-    cmd = { 'MarkdownPreviewToggle', 'MarkdownPreview', 'MarkdownPreviewStop' },
-    build = 'cd app && yarn install',
-    init = function()
-      vim.g.mkdp_filetypes = { 'markdown' }
-    end,
-    ft = { 'markdown' },
   },
 
   -- Nvim-Tree as an alternative to default file view Netrw
@@ -1061,5 +1062,5 @@ require('lazy').setup({
   },
 })
 
--- The line beneath this is called `modeline`. See `:help modeline`
+--- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
